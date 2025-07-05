@@ -38,9 +38,9 @@ var rootCmd = &cobra.Command{
 
 		// fmt.Println("mks: args è lungo:", len(args))
 		// fmt.Println("mks: args è :", args)
-		clip, _ := cmd.Flags().GetBool("2 - clip")
+		clip, _ := cmd.Flags().GetBool("clip")
 		if clip {
-			// fmt.Println("mks: root -c clip")
+			fmt.Println("mks: root -c clip")
 
 			var err error = nil
 			url, err = clipboard.ReadAll()
