@@ -24,18 +24,21 @@ type Bookmark struct {
 var rootCmd = &cobra.Command{
 	Use:   "bookmark",
 	Short: "A brief description of your application",
-	Long: `use: bookmark name bookmarkurl
-	bookmark -c name`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
+	Long: `Usage:
+  bookmark <name> <url>
+  bookmark -c <name> (takes URL from clipboard)
+  bookmark list
+  bookmark get <name>
+  bookmark delete <name>`,
+	Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		// fmt.Println("mks: root ")
+		fmt.Println("1 - mks: root ")
 
 		var name, url string
 
 		// fmt.Println("mks: args è lungo:", len(args))
 		// fmt.Println("mks: args è :", args)
-		clip, _ := cmd.Flags().GetBool("clip")
+		clip, _ := cmd.Flags().GetBool("2 - clip")
 		if clip {
 			// fmt.Println("mks: root -c clip")
 
@@ -47,30 +50,25 @@ var rootCmd = &cobra.Command{
 			name = args[0]
 
 		} else {
-			fmt.Println("mks: root noclip")
+			fmt.Println("3 - mks: root noclip")
 			if len(args) == 2 {
 				// fmt.Println("mks: root len2")
 				name = args[0]
 				url = args[1]
 			} else {
 				// fmt.Println("mks: root len no2")
-				fmt.Println("ToDo metti descrizione di come funziona il comando ", args)
+				fmt.Println("4 - ToDo metti descrizione di come funziona il comando ", args)
 			}
 
 		}
-
 		db, err := gorm.Open(sqlite.Open("bookmark.db"), &gorm.Config{})
 		if err != nil {
 			panic("failed to connect database")
 		}
-
 		db.AutoMigrate(&Bookmark{})
-
 		bkmrk := Bookmark{Name: name, Url: url}
 		db.Create(&bkmrk)
-
-		fmt.Println("mks: last", name, url)
-
+		fmt.Println("5 - mks: last", name, url, args)
 	},
 }
 
