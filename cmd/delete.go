@@ -14,13 +14,13 @@ import (
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Delete a bookmark by its name",
+	Long: `Delete removes the bookmark identified by the specified name from the local database.
+You must provide the bookmark name to delete it.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+Example:
+  bookmark delete google
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		if len(args) != 0 {

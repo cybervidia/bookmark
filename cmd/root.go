@@ -13,20 +13,25 @@ import (
 
 type Bookmark struct {
 	gorm.Model
-	Name string
+	Name string `gorm:"unique"`
 	Url  string
 }
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "bookmark",
-	Short: "A brief description of your application",
-	Long: `Usage:
-  bookmark add <name> <url>
-  bookmark add -c <name> (takes URL from clipboard)
-  bookmark list (list all the bookmark)
-  bookmark get <name> (put the url in the clipboard)
-  bookmark delete <name> (delete a bookmark)`,
+	Short: " Bookmark manager CLI with add, list, get, and delete commands",
+	Long: `Bookmark is a simple command-line application to manage your bookmarks locally.
+You can add bookmarks by name and URL, list all saved bookmarks,
+retrieve a bookmark URL to the clipboard, or delete bookmarks by name.
+
+Usage examples:
+  bookmark add <name> <url>           Add a bookmark with the given name and URL
+  bookmark add -c <name>               Add a bookmark using the URL from the clipboard
+  bookmark list                       Display all saved bookmarks
+  bookmark get <name>                 Copy the URL of the named bookmark to the clipboard
+  bookmark delete <name>              Remove the named bookmark
+`,
 	// Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Bookmark app")

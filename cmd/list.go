@@ -15,8 +15,13 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "show a list of bookmark",
-	Long:  `show a list of bookmark`,
+	Short: "List all saved bookmarks in a formatted table",
+	Long: `List displays all bookmarks stored in the local database.
+The output is formatted as a table with ID, Name, and URL columns for easy viewing.
+
+Example:
+  bookmark list
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		var bookmarks []Bookmark
