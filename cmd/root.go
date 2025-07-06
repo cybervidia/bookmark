@@ -5,12 +5,9 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"os"
 
-	"github.com/atotto/clipboard"
 	"github.com/spf13/cobra"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
@@ -25,50 +22,14 @@ var rootCmd = &cobra.Command{
 	Use:   "bookmark",
 	Short: "A brief description of your application",
 	Long: `Usage:
-  bookmark <name> <url>
-  bookmark -c <name> (takes URL from clipboard)
-  bookmark list
-  bookmark get <name>
-  bookmark delete <name>`,
-	Args: cobra.MinimumNArgs(1),
+  bookmark add <name> <url>
+  bookmark add -c <name> (takes URL from clipboard)
+  bookmark list (list all the bookmark)
+  bookmark get <name> (put the url in the clipboard)
+  bookmark delete <name> (delete a bookmark)`,
+	// Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("1 - mks: root ")
-
-		var name, url string
-
-		// fmt.Println("mks: args è lungo:", len(args))
-		// fmt.Println("mks: args è :", args)
-		clip, _ := cmd.Flags().GetBool("clip")
-		if clip {
-			fmt.Println("mks: root -c clip")
-
-			var err error = nil
-			url, err = clipboard.ReadAll()
-			if err != nil {
-				log.Fatal(err)
-			}
-			name = args[0]
-
-		} else {
-			fmt.Println("3 - mks: root noclip")
-			if len(args) == 2 {
-				// fmt.Println("mks: root len2")
-				name = args[0]
-				url = args[1]
-			} else {
-				// fmt.Println("mks: root len no2")
-				fmt.Println("4 - ToDo metti descrizione di come funziona il comando ", args)
-			}
-
-		}
-		db, err := gorm.Open(sqlite.Open("bookmark.db"), &gorm.Config{})
-		if err != nil {
-			panic("failed to connect database")
-		}
-		db.AutoMigrate(&Bookmark{})
-		bkmrk := Bookmark{Name: name, Url: url}
-		db.Create(&bkmrk)
-		fmt.Println("5 - mks: last", name, url, args)
+		fmt.Println("Bookmark app")
 	},
 }
 
@@ -90,5 +51,5 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("clip", "c", false, "take the clipboard as bookmarkurl")
+	//rootCmd.Flags().BoolP("clip", "c", false, "take the clipboard as bookmarkurl")
 }
