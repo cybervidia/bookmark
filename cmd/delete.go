@@ -22,19 +22,28 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		//Open DB
-		db, err := gorm.Open(sqlite.Open("bookmark.db"), &gorm.Config{})
-		if err != nil {
-			panic("failed to connect database")
+
+		if len(args) != 0 {
+			fmt.Println("lenght args:", len(args))
+
+			//Open DB
+			db, err := gorm.Open(sqlite.Open("bookmark.db"), &gorm.Config{})
+			if err != nil {
+				panic("failed to connect database")
+			}
+
+			db.AutoMigrate(&Bookmark{})
+
+			bookmark := Bookmark{}
+			db.First(&bookmark, "name = ?", args[0]) // carica il record
+			db.Unscoped().Delete(&Bookmark{}, bookmark.ID)
+
+			fmt.Println("bookmark deleted:", bookmark.Name, bookmark.Url)
+
+		} else {
+			fmt.Println("you need to specify something to delete, \n for exemple:\nbookmark delete aRecord")
 		}
 
-		db.AutoMigrate(&Bookmark{})
-
-		bookmark := Bookmark{}
-		db.First(&bookmark, "name = ?", args[0]) // carica il record
-		db.Delete(&Bookmark{}, bookmark.ID)
-
-		fmt.Println("bookmark deleted:", bookmark.Name, bookmark.Url)
 	},
 }
 
