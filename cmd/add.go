@@ -1,11 +1,13 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 maKs <eliteknow@youknowwhere.to>
 */
 package cmd
 
 import (
 	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/atotto/clipboard"
@@ -50,7 +52,12 @@ Examples:
 			}
 		}
 
-		db, err := gorm.Open(sqlite.Open("bookmark.db"), &gorm.Config{
+		dbPath, err := getDatabasePath()
+		if err != nil {
+			log.Fatalf("Failed to get database path: %v", err)
+		}
+
+		db, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Silent),
 		})
 		if err != nil {
@@ -75,6 +82,16 @@ Examples:
 
 		fmt.Println("Bookmark <", bkmrk.Name, "> inserito con successo")
 	},
+}
+
+func getDatabasePath() (string, error) {
+	exePath, err := os.Executable()
+	if err != nil {
+		return "", err
+	}
+	exeDir := filepath.Dir(exePath)
+	dbPath := filepath.Join(exeDir, "bookmark.db")
+	return dbPath, nil
 }
 
 func init() {

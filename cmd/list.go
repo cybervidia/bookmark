@@ -1,13 +1,16 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 maKs <eliteknow@youknowwhere.to>
 */
 package cmd
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
+	"golang.org/x/term"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -25,10 +28,14 @@ Example:
 	Run: func(cmd *cobra.Command, args []string) {
 
 		var bookmarks []Bookmark
-		// fmt.Println("list called", b)
+
+		dbPath, err := getDatabasePath()
+		if err != nil {
+			log.Fatalf("Failed to get database path: %v", err)
+		}
 
 		//Open DB
-		db, err := gorm.Open(sqlite.Open("bookmark.db"), &gorm.Config{})
+		db, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
 		if err != nil {
 			panic("failed to connect database")
 		}
@@ -39,21 +46,25 @@ Example:
 		result := db.Find(&bookmarks)
 		// SELECT * FROM users;
 
-		rs := result.RowsAffected // returns found records count, equals `len(users)`
-		err = result.Error        // returns error
+		// rs := result.RowsAffected // returns found records count, equals `len(users)`
+		err = result.Error // returns error
 
 		if err != nil {
-			fmt.Println("argh something wrong", rs, err)
+			fmt.Println("argh something wrong", err)
 		}
 
 		// Creazione della tabella
 		tableData := pterm.TableData{
-			{"ID", "Name", "URL"}, //intestazione
+			{
+				// "ID",
+				"Name",
+				"URL",
+			}, //intestazione
 		}
 
 		for _, b := range bookmarks {
 			row := []string{
-				fmt.Sprintf("%d", b.ID),
+				// fmt.Sprintf("%d", b.ID),
 				b.Name,
 				b.Url,
 			}
@@ -61,12 +72,33 @@ Example:
 		}
 
 		alternateStyle := pterm.NewStyle(pterm.BgDarkGray)
-		// pterm.DefaultTable.WithHasHeader().WithData(tableData).Render()
-		// pterm.DefaultTable.WithHasHeader().WithRowSeparator("-").WithHeaderRowSeparator("-").WithData(tableData).Render()
 		pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(tableData).WithAlternateRowStyle(alternateStyle).Render()
+
+		//solo temporaneo print per debug
+		getTermWidth()
 
 	},
 }
+
+func getTermWidth() int {
+	width, _, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		fmt.Println("Error:", err)
+		return 0
+	}
+	fmt.Printf("Terminal size: width=%d, height=%d\n", width)
+	return width
+}
+
+// func getDatabasePath() (string, error) {
+// 	exePath, err := os.Executable()
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	exeDir := filepath.Dir(exePath)
+// 	dbPath := filepath.Join(exeDir, "bookmark.db")
+// 	return dbPath, nil
+// }
 
 func init() {
 	rootCmd.AddCommand(listCmd)

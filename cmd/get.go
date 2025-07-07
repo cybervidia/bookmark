@@ -1,10 +1,11 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 maKs <eliteknow@youknowwhere.to>
 */
 package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/atotto/clipboard"
 	"github.com/spf13/cobra"
@@ -24,8 +25,13 @@ Example:
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 
+		dbPath, err := getDatabasePath()
+		if err != nil {
+			log.Fatalf("Failed to get database path: %v", err)
+		}
+
 		//Open DB
-		db, err := gorm.Open(sqlite.Open("bookmark.db"), &gorm.Config{})
+		db, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
 		if err != nil {
 			panic("failed to connect database")
 		}
@@ -43,6 +49,16 @@ Example:
 		fmt.Println("Testo copiato nella clipboard:", bookmark.Url)
 	},
 }
+
+// func getDatabasePath() (string, error) {
+// 	exePath, err := os.Executable()
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	exeDir := filepath.Dir(exePath)
+// 	dbPath := filepath.Join(exeDir, "bookmark.db")
+// 	return dbPath, nil
+// }
 
 func init() {
 	rootCmd.AddCommand(getCmd)

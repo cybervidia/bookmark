@@ -1,10 +1,11 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 maKs <eliteknow@youknowwhere.to>
 */
 package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
 	"gorm.io/driver/sqlite"
@@ -26,8 +27,13 @@ Example:
 		if len(args) != 0 {
 			fmt.Println("lenght args:", len(args))
 
+			dbPath, err := getDatabasePath()
+			if err != nil {
+				log.Fatalf("Failed to get database path: %v", err)
+			}
+
 			//Open DB
-			db, err := gorm.Open(sqlite.Open("bookmark.db"), &gorm.Config{})
+			db, err := gorm.Open(sqlite.Open(dbPath), &gorm.Config{})
 			if err != nil {
 				panic("failed to connect database")
 			}
@@ -46,6 +52,16 @@ Example:
 
 	},
 }
+
+// func getDatabasePath() (string, error) {
+// 	exePath, err := os.Executable()
+// 	if err != nil {
+// 		return "", err
+// 	}
+// 	exeDir := filepath.Dir(exePath)
+// 	dbPath := filepath.Join(exeDir, "bookmark.db")
+// 	return dbPath, nil
+// }
 
 func init() {
 	rootCmd.AddCommand(deleteCmd)
