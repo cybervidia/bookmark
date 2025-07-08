@@ -36,6 +36,8 @@ go.work.sum
 
 #Actual build
 bookmark
+Releases/
+build.sh
 
 #Mac
 .DS_Store
