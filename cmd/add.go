@@ -90,7 +90,7 @@ func getDatabasePath() (string, error) {
 		return "", err
 	}
 	exeDir := filepath.Dir(exePath)
-	dbPath := filepath.Join(exeDir, "bookmark.db")
+	dbPath := filepath.Join(exeDir, ".bookmark.db")
 	return dbPath, nil
 }
 
