@@ -34,7 +34,16 @@ Usage examples:
 `,
 	// Args: cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("Bookmark app")
+		fmt.Println("dP                         dP                                    dP       ")
+		fmt.Println("88                         88                                    88       ")
+		fmt.Println("88d888b. .d8888b. .d8888b. 88  .dP  88d8b.d8b. .d8888b. 88d888b. 88  .dP  ")
+		fmt.Println("88'  `88 88'  `88 88'  `88 88888\"   88'`88'`88 88'  `88 88'  `88 88888\"   ")
+		fmt.Println("88.  .88 88.  .88 88.  .88 88  `8b. 88  88  88 88.  .88 88       88  `8b. ")
+		fmt.Println("88Y8888' `88888P' `88888P' dP   `YP dP  dP  dP `88888P8 dP       dP   `YP ")
+		fmt.Println("                                                                          ")
+		fmt.Println("                  [ 記 ] ki                                                 ")
+		fmt.Println("               What you mark, remembers you.                               ")
+
 	},
 }
 

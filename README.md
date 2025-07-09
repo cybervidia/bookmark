@@ -1,3 +1,16 @@
+```sh
+dP                         dP                                    dP       
+88                         88                                    88       
+88d888b. .d8888b. .d8888b. 88  .dP  88d8b.d8b. .d8888b. 88d888b. 88  .dP  
+88'  `88 88'  `88 88'  `88 88888"   88'`88'`88 88'  `88 88'  `88 88888"   
+88.  .88 88.  .88 88.  .88 88  `8b. 88  88  88 88.  .88 88       88  `8b. 
+88Y8888' `88888P' `88888P' dP   `YP dP  dP  dP `88888P8 dP       dP   `YP 
+
+                  [ 記 ] ki
+               What you mark, remembers you.                                                                          
+```                                                                          
+
+
 # Bookmark CLI
 
 A simple and lightweight command-line bookmark manager written in Go using Cobra and GORM with SQLite.
